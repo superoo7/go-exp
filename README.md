@@ -4,6 +4,7 @@ Experiment with GoLang
 
 ## Content
 
-| dir | description                |
-| --- | -------------------------- |
-| rpc | writing an rpc with golang |
+| dir | description                                       |
+| --- | ------------------------------------------------- |
+| rpc | Writing an rpc with golang                        |
+| pow | Writing a blockchain with proof-of-work algorithm |
