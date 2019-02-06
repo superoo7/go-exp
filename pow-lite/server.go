@@ -2,16 +2,22 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 )
 
+// Message basic data being stored in blockchain
+type Message struct {
+	Msg string
+}
+
 // RunServer run server
-func RunServer() {
+func RunServer() error {
 	serverHandler := http.HandlerFunc(serverLogic)
 	http.Handle("/blockchain", serverHandler)
-	http.ListenAndServe(Port, nil)
+	return http.ListenAndServe(fmt.Sprintf(":%d", Port), nil)
 }
 
 func serverLogic(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +54,9 @@ func serverLogic(w http.ResponseWriter, r *http.Request) {
 		}
 
 		respondWithJSON(w, r, http.StatusCreated, newBlock)
+		return
+	} else {
+		http.Error(w, "Invalid method, use GET or POST", http.StatusInternalServerError)
 	}
 }
 

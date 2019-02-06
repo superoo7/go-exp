@@ -9,6 +9,17 @@ import (
 	"time"
 )
 
+// Block storing block in a blockchain
+type Block struct {
+	Index      int
+	Timestamp  string
+	Msg        string
+	Hash       string
+	PrevHash   string
+	Difficulty int
+	Nonce      string
+}
+
 // GenerateGenesisBlock generate genesis block
 func GenerateGenesisBlock() {
 	t := time.Now()
@@ -43,7 +54,7 @@ func GenerateBlock(oldBlock Block, msg string) Block {
 		newBlock.Nonce = hex
 		if !isHashValid(GenerateHash(newBlock), newBlock.Difficulty) {
 			fmt.Println(GenerateHash(newBlock), " do more work!")
-			time.Sleep(time.Second)
+			// time.Sleep(time.Second)
 			continue
 		} else {
 			fmt.Println(GenerateHash(newBlock), " work done!")
@@ -59,19 +70,16 @@ func isHashValid(hash string, difficulty int) bool {
 	return strings.HasPrefix(hash, prefix)
 }
 
-// isBlockValid make sure block is valid by checking index, and comparing the hash of the previous block
+// IsBlockValid make sure block is valid by checking index, and comparing the hash of the previous block
 func IsBlockValid(newBlock, oldBlock Block) bool {
 	if oldBlock.Index+1 != newBlock.Index {
 		return false
 	}
-
 	if oldBlock.Hash != newBlock.PrevHash {
 		return false
 	}
-
 	if GenerateHash(newBlock) != newBlock.Hash {
 		return false
 	}
-
 	return true
 }
